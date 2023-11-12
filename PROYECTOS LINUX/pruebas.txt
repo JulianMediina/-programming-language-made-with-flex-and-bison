@@ -1,0 +1,17 @@
+ent y1//
+ent y1: valo//
+dec w//
+dec w:12343t//
+text s//
+cond verificar//
+fr [ent x: 0; x<9; x++]{}//
+fr [ent x: 0; x<9; x--]{
+ent y1//
+}//
+ent main []{veo valor}//
+init identificador []{}//
+identificador[]//
+ms [x=y & y=x]{}//
+sisas[x=y]{}//
+sisas[x<x]{ }nospi{}//
+try{ }catch{ }//
