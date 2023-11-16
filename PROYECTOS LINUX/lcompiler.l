@@ -1,7 +1,13 @@
 %{
 #include "scompiler.tab.h"
+#include <stdio.h>
+
+extern int yylineno;  // Variable global proporcionada por Flex para el número de línea
+extern char* yytext;  // Variable global proporcionada por Flex para el texto actual
 %}
+
 increaser "++"|"--"
+
 %%
 "//"                     {return END;}
 "ent"                   {return ENT;}
@@ -37,7 +43,14 @@ increaser "++"|"--"
 "try"                    {return TRY;}
 "catch"                    {return CATCH;}
 [A-Za-z0-9]+		{return ITK;}
-[ \t\n]                 {/*Se ignoran los espacios*/}
-.			{printf("Error léxico: %s\n", yytext);}
+
+[ \t]+                  ;  // Ignorar espacios y tabulaciones
+
+\n                      { yylineno++; }  // Contar el número de líneas
+
+.			{printf("Error léxico: Caracter no reconocido '%s' en la línea %d\n", yytext, yylineno);}
 %%
-int yywrap(){return 1;}
+
+int yywrap() {
+    return 1;
+}

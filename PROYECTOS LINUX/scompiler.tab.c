@@ -67,7 +67,7 @@
 
 
 /* First part of user prologue.  */
-#line 2 "scompiler.y"
+#line 1 "scompiler.y"
 
 #include <stdio.h>
 extern int yylex(void);
@@ -75,7 +75,20 @@ extern char *yytext;
 void yyerror(char *s);
 extern FILE *yyin;
 
-#line 79 "scompiler.tab.c"
+// Declaración externa de yylineno
+extern int yylineno;
+
+// Función para aumentar el número de línea al encontrar un salto de línea
+void increase_line_number() {
+    int i;
+    for (i = 0; yytext[i] != '\0'; i++) {
+        if (yytext[i] == '\n') {
+            yylineno++;
+        }
+    }
+}
+
+#line 92 "scompiler.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -549,11 +562,11 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    13,    13,    14,    15,    16,    17,    18,    19,    20,
-      22,    23,    25,    26,    28,    29,    30,    31,    33,    34,
-      36,    37,    39,    41,    42,    44,    46,    47,    49,    51,
-      53,    55,    57,    58,    60,    61,    62,    63,    65,    66,
-      67,    68,    71,    72,    73,    74,    75,    76,    78,    79
+       0,    26,    26,    27,    28,    29,    30,    31,    32,    33,
+      35,    36,    38,    39,    41,    42,    43,    44,    46,    47,
+      49,    50,    52,    54,    55,    57,    59,    60,    62,    64,
+      66,    68,    70,    71,    73,    74,    75,    76,    78,    79,
+      80,    81,    83,    84,    85,    86,    87,    88,    90,    91
 };
 #endif
 
@@ -1218,7 +1231,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1222 "scompiler.tab.c"
+#line 1235 "scompiler.tab.c"
 
       default: break;
     }
@@ -1411,19 +1424,19 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 80 "scompiler.y"
+#line 93 "scompiler.y"
 
 
-void yyerror(char *s){
-	printf("Error Sintáctico: %s\n", s);
+void yyerror(char *s) {
+    fprintf(stderr, "Error Sintáctico: %s en la línea %d\n", s, yylineno);
 }
 
 int main(int argc, char **argv){
-	printf("Inicio del programa: \n");
-	if(argc>1)
-		yyin=fopen(argv[1],"rt");
-	else
-		yyin=stdin;
-	yyparse();
-return 0;
+    printf("Inicio del programa: \n");
+    if(argc > 1)
+        yyin = fopen(argv[1], "rt");
+    else
+        yyin = stdin;
+    yyparse();
+    return 0;
 }
